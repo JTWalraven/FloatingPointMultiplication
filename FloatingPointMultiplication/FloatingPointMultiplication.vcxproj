@@ -76,11 +76,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BitsetMath.hpp" />
     <ClInclude Include="catch.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BitsetMath.cpp" />
     <ClCompile Include="CatchConfigMain.cpp" />
-    <ClCompile Include="BinaryFloatConverter.cpp" />
+    <ClCompile Include="Float32Converter.cpp" />
+    <ClCompile Include="Float32.hpp" />
     <ClCompile Include="HexConverter.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

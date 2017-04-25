@@ -46,6 +46,11 @@ const char * hexDigitToBinary(const char number) {
 	return "-1";
 }
 
+TEST_CASE("Hexidecimal number is converted to Float32", "[hexToBinary]") {
+	REQUIRE(hexToBinary("C0A00000") == "11000000101000000000000000000000");
+	REQUIRE(hexToBinary("3f800000") == "00111111100000000000000000000000");
+}
+
 TEST_CASE("Hexidecimal number is converted to binary", "[hexToBinary]") {
 	REQUIRE(hexToBinary("C0A00000") == "11000000101000000000000000000000");
 	REQUIRE(hexToBinary("3f800000") == "00111111100000000000000000000000");

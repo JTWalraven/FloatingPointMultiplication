@@ -1,0 +1,8 @@
+Debug/
+Release/
+FloatingPointMultiplication/Debug/
+FloatingPointMultiplication/Release/
+
+*.sdf
+*.suo
+*.opensdf
