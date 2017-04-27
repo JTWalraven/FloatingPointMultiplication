@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClCompile Include="BitsetMath.cpp" />
     <ClCompile Include="CatchConfigMain.cpp" />
+    <ClCompile Include="Float32.cpp" />
     <ClCompile Include="Float32Converter.cpp" />
     <ClCompile Include="Float32.hpp" />
     <ClCompile Include="HexConverter.cpp" />

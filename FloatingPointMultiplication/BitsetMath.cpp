@@ -1,4 +1,4 @@
-#include "BitsetMath.h"
+#include "BitsetMath.hpp"
 using namespace std;
 
 bool BitsetMath::addBits(bool b1, bool b2, bool& carry) {
