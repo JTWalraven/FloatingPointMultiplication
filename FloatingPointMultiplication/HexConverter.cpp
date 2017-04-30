@@ -1,16 +1,31 @@
-#include "catch.hpp"
-#include <iostream>
-using namespace std;
-
-// Declare methods
-const string hexToBinary(const string);
-const char * hexDigitToBinary(const char);
+#include "HexConverter.hpp"
 
 // Create the hexedecimal conversion table
-const char * const hexQuads[16] = {"0000", "0001", "0010", "0011", "0100", "0101", 
+static const char * const hexQuads[16] = {"0000", "0001", "0010", "0011", "0100", "0101", 
 "0110", "0111", "1000", "1001", "1010", "1011", "1100", "1101", "1110", "1111"};
 
-const string hexToBinary(const string number) {
+const Float32 HexConverter::hexToFloat32(const string number) {
+	Float32 float32;
+
+	// Convert hex to binary string
+	string binary = hexToBinary(number);
+
+	// Convert sign
+	string sign = binary.substr(FLOAT32_SIGN_POS, FLOAT32_SIGN_LENGTH);
+	float32.setSign(sign[0] == '1');
+
+	// Convert the exponent
+	string exponent = binary.substr(FLOAT32_EXPONENT_POS, FLOAT32_EXPONENT_LENGTH);
+	float32.setExponent(bitset<FLOAT32_EXPONENT_LENGTH>(exponent));
+
+	// Convert the fraction
+	string fraction = binary.substr(FLOAT32_FRACTION_POS, FLOAT32_FRACTION_LENGTH);
+	float32.setFraction(bitset<FLOAT32_FRACTION_LENGTH>(fraction));
+
+	return float32;
+}
+
+const string HexConverter::hexToBinary(const string number) {
 	string binary = "";
 
 	// Loop through digits
@@ -29,7 +44,7 @@ const string hexToBinary(const string number) {
 	return binary;
 }
 
-const char * hexDigitToBinary(const char number) {
+const char * HexConverter::hexDigitToBinary(const char number) {
 	// If the number is 0 through 9 return the value in the array
 	if (number >= '0' && number <= '9') 
 		return hexQuads[number - '0'];
@@ -44,33 +59,4 @@ const char * hexDigitToBinary(const char number) {
 
 	// Invalid number
 	return "-1";
-}
-
-TEST_CASE("Hexidecimal number is converted to Float32", "[hexToBinary]") {
-	REQUIRE(hexToBinary("C0A00000") == "11000000101000000000000000000000");
-	REQUIRE(hexToBinary("3f800000") == "00111111100000000000000000000000");
-}
-
-TEST_CASE("Hexidecimal number is converted to binary", "[hexToBinary]") {
-	REQUIRE(hexToBinary("C0A00000") == "11000000101000000000000000000000");
-	REQUIRE(hexToBinary("3f800000") == "00111111100000000000000000000000");
-}
-
-TEST_CASE("Hexidecimal digits are converted to binary", "[hexDigitToBinary]") {
-	REQUIRE(hexDigitToBinary('0') == "0000");
-	REQUIRE(hexDigitToBinary('1') == "0001");
-	REQUIRE(hexDigitToBinary('2') == "0010");
-	REQUIRE(hexDigitToBinary('3') == "0011");
-	REQUIRE(hexDigitToBinary('4') == "0100");
-	REQUIRE(hexDigitToBinary('5') == "0101");
-	REQUIRE(hexDigitToBinary('6') == "0110");
-	REQUIRE(hexDigitToBinary('7') == "0111");
-	REQUIRE(hexDigitToBinary('8') == "1000");
-	REQUIRE(hexDigitToBinary('9') == "1001");
-	REQUIRE(hexDigitToBinary('A') == "1010");
-	REQUIRE(hexDigitToBinary('B') == "1011");
-	REQUIRE(hexDigitToBinary('C') == "1100");
-	REQUIRE(hexDigitToBinary('D') == "1101");
-	REQUIRE(hexDigitToBinary('E') == "1110");
-	REQUIRE(hexDigitToBinary('F') == "1111");
 }

@@ -15,30 +15,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="catch.hpp">
+    <ClInclude Include="BitsetMath.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BitsetMath.hpp">
+    <ClInclude Include="HexConverter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CatchConfigMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HexConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Float32.hpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Float32Converter.cpp">
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Float32Impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BitsetMath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Float32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

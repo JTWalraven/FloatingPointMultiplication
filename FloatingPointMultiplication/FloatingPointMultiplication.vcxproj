@@ -77,15 +77,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BitsetMath.hpp" />
-    <ClInclude Include="catch.hpp" />
+    <ClInclude Include="HexConverter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitsetMath.cpp" />
-    <ClCompile Include="CatchConfigMain.cpp" />
-    <ClCompile Include="Float32.cpp" />
-    <ClCompile Include="Float32Converter.cpp" />
+    <ClCompile Include="Float32Impl.cpp" />
     <ClCompile Include="Float32.hpp" />
     <ClCompile Include="HexConverter.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Tests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

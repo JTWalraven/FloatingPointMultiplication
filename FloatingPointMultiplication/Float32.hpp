@@ -9,6 +9,7 @@
 #define FLOAT32_FRACTION_LENGTH 23
 
 #include <bitset>
+#include <iostream>
 #include "BitsetMath.hpp"
 using namespace std;
 
@@ -27,6 +28,11 @@ public:
 	bitset<FLOAT32_EXPONENT_LENGTH> getExponent() const;
 
 	bitset<FLOAT32_FRACTION_LENGTH> getFraction() const;
+
+	Float32 operator*(Float32);
+
+	void printDecimal() const;
+
 };
 
 #endif // !FLOAT32
