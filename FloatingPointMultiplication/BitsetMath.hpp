@@ -83,24 +83,24 @@ bitset<N> BitsetMath::subtractBitset(const bitset<N>& l, const bitset<N>& r, boo
 template<unsigned int N>
 bitset<N> BitsetMath::shiftLeft(const bitset<N>& num, int shifts) {
 	bitset<N> shiftedBitset;
-	for (int i = shifts; i < N; i++) {
-		shiftedBitset[i] = num[i - shifts];
-	}
+	shiftedBitset = num << shifts;
 	return shiftedBitset;
 }
 
 template<unsigned int N>
 bitset<N> BitsetMath::shiftRight(const bitset<N>& num, int shifts) {
 	bitset<N> shiftedBitset;
-	for (int i = shifts; i < N; i++) {
-		shiftedBitset[i - shifts] = num[i];
-	}
+	shiftedBitset = num >> shifts;
 	return shiftedBitset;
 }
 
 template<unsigned int N>
 bitset<N> BitsetMath::multiplyBitset(const bitset<N>& l, const bitset<N>& r) {
 	bitset<N> product;
+
+	cout << "    " << l << endl;
+	cout << "   x" << r << endl;
+	cout << "----------------------" << endl;
 
 	// Loop through the bitset
 	for (int i = 0; i < N; i++) {

@@ -12,22 +12,42 @@ int main() {
 	fin.open("input.txt", ifstream::in);
 	if (fin.good()) {
 		// Read in values
-		fin >> value1 >> value2;
+		while (fin >> value1 >> value2) {
 
-		// Convert values to floats
-		Float32 leftFloat = HexConverter::hexToFloat32(value1);
-		Float32 rightFloat = HexConverter::hexToFloat32(value2);
+			// Convert left value to float
+			Float32 leftFloat = HexConverter::hexToFloat32(value1);
 
-		// Multiply float values
-		Float32 product = leftFloat * rightFloat;
+			// Print out equivalence
+			cout << value1 << " is equivalent to IEEE: " << leftFloat.getDecimal() << endl;
 
-		// Print out decimal
-		product.printDecimal();
+			// Convert right value to float
+			Float32 rightFloat = HexConverter::hexToFloat32(value2);
+
+			// Print out equivalence
+			cout << value2 << " is equivalent to IEEE: " << rightFloat.getDecimal() << endl;
+
+			try {
+				// Multiply float values
+				Float32 product = leftFloat * rightFloat;
+
+				// Print product result
+				cout << endl
+					<< "The product is " << product.getHex()
+					<< ", which is equivalent to " << product.getDecimal() << endl << endl;
+			}
+			catch (std::overflow_error) {	// Catch and report overflow
+				cout << endl << "ERROR: Overflow occured in multiplication of floats." << endl << endl;
+			}
+			catch (std::underflow_error) {	// Catch and report underflow
+				cout << endl << "ERROR: Underflow occured in multiplication of floats." << endl << endl;
+			}
+		}
 	}
 	fin.close();
 
 	// Pause the program
-	int x = 0;
+	cout << "Execution finished. Press any key to continue..." << endl;
+	int x;
 	cin >> x;
 	return 0;
 }
