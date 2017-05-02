@@ -34,6 +34,7 @@ int main() {
 				cout << endl
 					<< "The product is " << product.getHex()
 					<< ", which is equivalent to " << product.getDecimal() << endl << endl;
+				cout << "Product: " << leftFloat.getFloat() * rightFloat.getFloat() << endl;
 			}
 			catch (std::overflow_error) {	// Catch and report overflow
 				cout << endl << "ERROR: Overflow occured in multiplication of floats." << endl << endl;

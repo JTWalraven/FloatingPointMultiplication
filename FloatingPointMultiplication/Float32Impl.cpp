@@ -6,11 +6,23 @@ void Float32::setSign(const bool sign) {
 
 void Float32::setExponent(const bitset<FLOAT32_EXPONENT_LENGTH>& exponent) {
 	for (int i = 0; i < FLOAT32_EXPONENT_LENGTH; i++) {
-		(*this)[FLOAT32_EXPONENT_POS + i] = exponent[(FLOAT32_EXPONENT_LENGTH - 1) - i];
+		(*this)[FLOAT32_EXPONENT_POS + i] = exponent[i];
 	}
 }
 
 void Float32::setSignificand(const bitset<FLOAT32_SIGNIFICAND_LENGTH>& fraction) {
+	for (int i = 0; i < FLOAT32_SIGNIFICAND_LENGTH; i++) {
+		(*this)[FLOAT32_SIGNIFICAND_POS + i] = fraction[i];
+	}
+}
+
+void Float32::setReverseExponent(const bitset<FLOAT32_EXPONENT_LENGTH>& exponent) {
+	for (int i = 0; i < FLOAT32_EXPONENT_LENGTH; i++) {
+		(*this)[FLOAT32_EXPONENT_POS + i] = exponent[(FLOAT32_EXPONENT_LENGTH - 1) - i];
+	}
+}
+
+void Float32::setReverseSignificand(const bitset<FLOAT32_SIGNIFICAND_LENGTH>& fraction) {
 	for (int i = 0; i < FLOAT32_SIGNIFICAND_LENGTH; i++) {
 		(*this)[FLOAT32_SIGNIFICAND_POS + i] = fraction[(FLOAT32_SIGNIFICAND_LENGTH - 1) - i];
 	}
@@ -48,22 +60,33 @@ Float32 Float32::operator*(Float32 num) {
 
 	// Add exponents
 	unsigned int exponent = (int)this->getExponent().to_ulong() + (int)num.getExponent().to_ulong();
+	if (exponent == 0) exponent = 127;	// Set to 127 if the exponent is 0
+
+	// Check for underflow or overflow
+	if (exponent < 127) 
+		throw std::underflow_error("Underflow on exponent.");
+	else if (exponent > 381) 
+		throw std::overflow_error("Overflow on exponent.");
 
 	// Subtract the bias
-	if (exponent > 0)
-		exponent -= 127;
+	exponent -= 127;
 
 	// Set the resulting exponent
 	result.setExponent(bitset<FLOAT32_EXPONENT_LENGTH>{exponent});
 
-	// Multiply significands
+	/*bitset<FLOAT32_SIGNIFICAND_LENGTH> significand = this->getSignificand();
+	significand <<= 1;	// Shift the bitset right
+	significand[0] = 1;	// Set the 1 on the bitset
+	bitset<FLOAT32_SIGNIFICAND_LENGTH> significand2 = num.getSignificand();
+	significand2 <<= 1;	// Shift the bitset right
+	significand2[0] = 1;	// Set the 1 on the bitset*/
 	bitset<FLOAT32_SIGNIFICAND_LENGTH> sig1 = this->getSignificand();
 	bitset<FLOAT32_SIGNIFICAND_LENGTH> sig2 = num.getSignificand();
-	sig2[FLOAT32_SIGNIFICAND_POS] = 1;
-	result.setSignificand(BitsetMath::multiplyBitset(sig1, sig2));
+	sig2 >>= 1;
+	sig2[0] = 1;
 
-	// Round the float
-	// If the last digit is a one, add one
+	// Multiply significands
+	result.setSignificand(BitsetMath::multiplyBitset(sig1, sig2));
 
 	return result;
 }

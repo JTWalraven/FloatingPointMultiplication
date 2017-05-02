@@ -19,11 +19,11 @@ const Float32 HexConverter::hexToFloat32(const string number) {
 
 	// Convert the exponent
 	string exponent = binary.substr(FLOAT32_EXPONENT_POS, FLOAT32_EXPONENT_LENGTH);
-	float32.setExponent(bitset<FLOAT32_EXPONENT_LENGTH>(exponent));
+	float32.setReverseExponent(bitset<FLOAT32_EXPONENT_LENGTH>(exponent));
 
 	// Convert the significand
 	string fraction = binary.substr(FLOAT32_SIGNIFICAND_POS, FLOAT32_SIGNIFICAND_LENGTH);
-	float32.setSignificand(bitset<FLOAT32_SIGNIFICAND_LENGTH>(fraction));
+	float32.setReverseSignificand(bitset<FLOAT32_SIGNIFICAND_LENGTH>(fraction));
 
 	return float32;
 }

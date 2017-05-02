@@ -37,9 +37,6 @@ bitset<N> BitsetMath::addBitset(const bitset<N>& l, const bitset<N>& r) {
 		sum[i] = addBits(l[i], r[i], carry);
 	}
 
-	// Overflow
-	if (carry) throw std::overflow_error("Overflow on bitset addition.");
-
 	return sum;
 }
 
@@ -65,10 +62,6 @@ bitset<N> BitsetMath::subtractBitset(const bitset<N>& l, const bitset<N>& r, boo
 	for (int i = 0; i < N; i++) {
 		difference[i] = addBits(twosCompliment[i], r[i], carry);
 	}
-
-	// Handle underflow 
-	// (there are never two positive numbers, since r can only be positive)
-	if (carry && negative) throw std::underflow_error("Underflow on bitset subtraction.");
 
 	// Set negative
 	negative = carry;
@@ -96,7 +89,9 @@ bitset<N> BitsetMath::shiftRight(const bitset<N>& num, int shifts) {
 
 template<unsigned int N>
 bitset<N> BitsetMath::multiplyBitset(const bitset<N>& l, const bitset<N>& r) {
-	bitset<N> product;
+	bitset<N * 2> product;
+	bitset<N * 2> ld(l.to_ulong());
+	int offset = 0;
 
 	cout << endl << "Multiplication: " << endl;
 	cout << "    " << l << endl;
@@ -105,14 +100,31 @@ bitset<N> BitsetMath::multiplyBitset(const bitset<N>& l, const bitset<N>& r) {
 
 	// Loop through the bitset
 	for (int i = 0; i < N; i++) {
-
 		// If the current multiplier is 1
-		if (r[i] == 1) {
+		if (r.test(i)) {
 			// Acumulate the product
-			product = addBitset(product, shiftLeft(l, i));
+			product = addBitset(product, shiftLeft(ld, i));
+
+			// Calculate the offset
+			offset = (i + N) - 1;
 		}
 	}
-	return product;
+
+
+	// Get the result of the multiplication
+	bitset<N> result;
+	cout << "Offset: " << offset << endl;
+	for (int i = 0; i < N && offset - i > 0; i++) {
+		result[(N - 1) - i] = product[offset - i];
+	}
+	cout << "Product: " << product << endl;
+	cout << "Result: " << result << endl;
+
+	// Round up the result
+	if (result[0] == 1)
+		result = BitsetMath::addBitset(result, bitset<N>{1});
+
+	return result;
 }
 
 #endif

@@ -24,6 +24,10 @@ public:
 
 	void setSignificand(const bitset<FLOAT32_SIGNIFICAND_LENGTH>&);
 
+	void setReverseExponent(const bitset<FLOAT32_EXPONENT_LENGTH>&);
+
+	void setReverseSignificand(const bitset<FLOAT32_SIGNIFICAND_LENGTH>&);
+
 	bool getSign() const;
 
 	bool isPositive() const;
