@@ -7,8 +7,11 @@ static const char * const hexQuads[16] = {"0000", "0001", "0010", "0011", "0100"
 const Float32 HexConverter::hexToFloat32(const string number) {
 	Float32 float32;
 
-	// Convert hex to binary string
+	// Convert hex to binary string 
 	string binary = hexToBinary(number);
+
+	// Reverse the binary to work with bitset
+	reverse(binary.begin(), binary.end());
 
 	// Convert sign
 	string sign = binary.substr(FLOAT32_SIGN_POS, FLOAT32_SIGN_LENGTH);

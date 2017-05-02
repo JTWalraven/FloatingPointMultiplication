@@ -6,13 +6,13 @@ void Float32::setSign(const bool sign) {
 
 void Float32::setExponent(const bitset<FLOAT32_EXPONENT_LENGTH>& exponent) {
 	for (int i = 0; i < FLOAT32_EXPONENT_LENGTH; i++) {
-		(*this)[FLOAT32_EXPONENT_POS + i] = exponent[i];
+		(*this)[FLOAT32_EXPONENT_POS + i] = exponent[(FLOAT32_EXPONENT_LENGTH - 1) - i];
 	}
 }
 
 void Float32::setSignificand(const bitset<FLOAT32_SIGNIFICAND_LENGTH>& fraction) {
 	for (int i = 0; i < FLOAT32_SIGNIFICAND_LENGTH; i++) {
-		(*this)[FLOAT32_SIGNIFICAND_POS + i] = fraction[i];
+		(*this)[FLOAT32_SIGNIFICAND_POS + i] = fraction[(FLOAT32_SIGNIFICAND_LENGTH - 1) - i];
 	}
 }
 
@@ -59,64 +59,41 @@ Float32 Float32::operator*(Float32 num) {
 	// Multiply significands
 	bitset<FLOAT32_SIGNIFICAND_LENGTH> sig1 = this->getSignificand();
 	bitset<FLOAT32_SIGNIFICAND_LENGTH> sig2 = num.getSignificand();
-	sig2[0] = 1;
+	sig2[FLOAT32_SIGNIFICAND_POS] = 1;
 	result.setSignificand(BitsetMath::multiplyBitset(sig1, sig2));
 
 	// Round the float
+	// If the last digit is a one, add one
 
 	return result;
 }
 
+float Float32::getFloat() const {
+	// Copy the binary to a float using a pointer cast
+	bitset<FLOAT32_LENGTH> f = (*this);
+	return * reinterpret_cast<float*>(&f);
+}
+
 string Float32::getHex() const {
 	stringstream result;
-	result << hex << uppercase << (*this).to_ulong();
+
+	// Get the float
+	float fl = this->getFloat();
+
+	// Print out the result to a sstream
+	result << hex << *((int*)&fl);
+
 	return result.str();
 }
 
 string Float32::getDecimal() const {
 	stringstream result;
 
-	cout << (*this) << endl;
+	cout << *this << endl;
 
-	// Print out the sign
-	if (!this->isPositive())
-		result << "-";
+	// Print out the scientific result to a sstream
+	result << scientific << this->getFloat();
 
-	// Get exponent
-	int exponent = (int)(this->getExponent().to_ulong()) - 127;
-
-	// De-Normalize the number
-	bitset<FLOAT32_SIGNIFICAND_LENGTH> whole;
-	if (exponent < FLOAT32_SIGNIFICAND_LENGTH) {
-		whole = BitsetMath::shiftRight(this->getSignificand(), FLOAT32_SIGNIFICAND_LENGTH - exponent);
-	}
-	else {
-		whole = BitsetMath::shiftRight(this->getSignificand(), FLOAT32_SIGNIFICAND_LENGTH);
-	}
-	if (exponent >= 0 && exponent < FLOAT32_SIGNIFICAND_LENGTH) whole[exponent] = 1;
-	int wholeNumber = (int)(whole.to_ulong());
-
-	result << wholeNumber;
-
-	// Print out the radix
-	result << ".";
-
-	bitset<FLOAT32_SIGNIFICAND_LENGTH> significand;
-	significand = BitsetMath::shiftLeft(this->getSignificand(), 0);
-	const int percision = 10;
-	long long significandInt = 0;
-	for (int i = percision; i > 0; i--) {
-		significandInt += significand[i] * pow(5, i) * pow(10, percision - i);
-	}
-
-	result << setfill('0') << setw(6) << significandInt;
-
-	result << "e" << exponent;
-
-
-	// Print out the fraction
-
-	// Print out the exponent
 	return result.str();
 }
 

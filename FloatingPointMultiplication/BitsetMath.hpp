@@ -98,6 +98,7 @@ template<unsigned int N>
 bitset<N> BitsetMath::multiplyBitset(const bitset<N>& l, const bitset<N>& r) {
 	bitset<N> product;
 
+	cout << endl << "Multiplication: " << endl;
 	cout << "    " << l << endl;
 	cout << "   x" << r << endl;
 	cout << "----------------------" << endl;

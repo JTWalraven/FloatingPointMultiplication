@@ -32,9 +32,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Float32Impl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
