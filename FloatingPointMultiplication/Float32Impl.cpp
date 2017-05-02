@@ -71,22 +71,23 @@ Float32 Float32::operator*(Float32 num) {
 	// Subtract the bias
 	exponent -= 127;
 
-	// Set the resulting exponent
-	result.setExponent(bitset<FLOAT32_EXPONENT_LENGTH>{exponent});
-
-	/*bitset<FLOAT32_SIGNIFICAND_LENGTH> significand = this->getSignificand();
-	significand <<= 1;	// Shift the bitset right
-	significand[0] = 1;	// Set the 1 on the bitset
-	bitset<FLOAT32_SIGNIFICAND_LENGTH> significand2 = num.getSignificand();
-	significand2 <<= 1;	// Shift the bitset right
-	significand2[0] = 1;	// Set the 1 on the bitset*/
+	// Get significands
 	bitset<FLOAT32_SIGNIFICAND_LENGTH> sig1 = this->getSignificand();
 	bitset<FLOAT32_SIGNIFICAND_LENGTH> sig2 = num.getSignificand();
+
+	// Add a one digit to the significand
 	sig2 >>= 1;
 	sig2[0] = 1;
 
 	// Multiply significands
-	result.setSignificand(BitsetMath::multiplyBitset(sig1, sig2));
+	bool incrementExponent = false;
+	result.setSignificand(BitsetMath::multiplyBitset(sig1, sig2, incrementExponent));
+
+	// Increment the exponent
+	exponent += incrementExponent;
+
+	// Set the resulting exponent
+	result.setExponent(bitset<FLOAT32_EXPONENT_LENGTH>{exponent});
 
 	return result;
 }

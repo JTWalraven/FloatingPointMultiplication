@@ -24,7 +24,7 @@ public:
 	static bitset<N> shiftRight(const bitset<N>& num, int shifts);
 
 	template<unsigned int N>
-	static bitset<N> multiplyBitset(const bitset<N>& l, const bitset<N>& r);
+	static bitset<N> multiplyBitset(const bitset<N>& l, const bitset<N>& r, bool& increment);
 };
 
 template<unsigned int N>
@@ -88,9 +88,9 @@ bitset<N> BitsetMath::shiftRight(const bitset<N>& num, int shifts) {
 }
 
 template<unsigned int N>
-bitset<N> BitsetMath::multiplyBitset(const bitset<N>& l, const bitset<N>& r) {
-	bitset<N * 2> product;
-	bitset<N * 2> ld(l.to_ulong());
+bitset<N> BitsetMath::multiplyBitset(const bitset<N>& l, const bitset<N>& r, bool& increment) {
+	bitset<N * 3> product;
+	bitset<N * 3> ld(l.to_ulong());
 	int offset = 0;
 
 	cout << endl << "Multiplication: " << endl;
@@ -110,6 +110,9 @@ bitset<N> BitsetMath::multiplyBitset(const bitset<N>& l, const bitset<N>& r) {
 		}
 	}
 
+	// Set the increment to true
+	if (product.test(offset + 1))
+		increment = true;
 
 	// Get the result of the multiplication
 	bitset<N> result;
@@ -117,6 +120,8 @@ bitset<N> BitsetMath::multiplyBitset(const bitset<N>& l, const bitset<N>& r) {
 	for (int i = 0; i < N && offset - i > 0; i++) {
 		result[(N - 1) - i] = product[offset - i];
 	}
+
+	cout << "Left: " << ld << endl;
 	cout << "Product: " << product << endl;
 	cout << "Result: " << result << endl;
 
